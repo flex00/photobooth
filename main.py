@@ -9,7 +9,7 @@ from camera import cameradect
 class PhotoboothWidget(Widget):
     def __init__(self):
         super().__init__()
-        self.start = Button(text="Start Game", pos=(350, 250))
+        self.start = Button(text="Take Photo", pos=(350, 250))
         self.add_widget(self.start)
         self.count = Label(text="", pos=(350, 250), font_size=90)
         self.pic = Label(text="", pos=(350, 250), font_size=90)
