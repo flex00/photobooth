@@ -5,7 +5,7 @@ from kivy.app import App
 from kivy.clock import Clock
 import time
 import gphoto2 as gp
-from pip._internal.utils import logging
+import logging
 
 
 def cameradect():
