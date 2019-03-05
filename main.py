@@ -9,6 +9,10 @@ from camera import cameradect
 class PhotoboothWidget(Widget):
     def __init__(self):
         super().__init__()
+        self.startup()
+
+    def startup(self):
+        self.clear_widgets()
         self.start = Button(text="Take Photo", pos=(350, 250))
         self.add_widget(self.start)
         self.count = Label(text="", pos=(350, 250), font_size=90)
@@ -35,7 +39,7 @@ class PhotoboothWidget(Widget):
         self.add_widget(self.pic)
         self.pic.text = "photo"
         cameradect()
-
+        Clock.schedule_once(lambda dt: self.startup(), 5)
 
 class PhotoboothApp(App):
     def build(self):
