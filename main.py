@@ -4,6 +4,40 @@ from kivy.uix.label import Label
 from kivy.app import App
 from kivy.clock import Clock
 import time
+import gphoto2 as gp
+from pip._internal.utils import logging
+
+
+def cameradect():
+    logging.basicConfig(
+        format='%(levelname)s: %(name)s: %(message)s', level=logging.WARNING)
+    gp.check_result(gp.use_python_logging())
+    camera = gp.check_result(gp.gp_camera_new())
+    gp.check_result(gp.gp_camera_init(camera))
+    text = gp.check_result(gp.gp_camera_get_summary(camera))
+    print('Summary')
+    print('=======')
+    print(text.text)
+    print('Abilities')
+    print('=========')
+    abilities = gp.check_result(gp.gp_camera_get_abilities(camera))
+    print('model:', abilities.model)
+    print('status:', abilities.status)
+    print('port:', abilities.port)
+    print('speed:', abilities.speed)
+    print('operations:', abilities.operations)
+    print('file_operations:', abilities.file_operations)
+    print('folder_operations:', abilities.folder_operations)
+    print('usb_vendor:', abilities.usb_vendor)
+    print('usb_product:', abilities.usb_product)
+    print('usb_class:', abilities.usb_class)
+    print('usb_subclass:', abilities.usb_subclass)
+    print('usb_protocol:', abilities.usb_protocol)
+    print('library:', abilities.library)
+    print('id:', abilities.id)
+    print('device_type:', abilities.device_type)
+    gp.check_result(gp.gp_camera_exit(camera))
+    return 0
 
 
 class PhotoboothWidget(Widget):
@@ -13,27 +47,28 @@ class PhotoboothWidget(Widget):
         self.add_widget(self.start)
         self.count = Label(text="", pos=(350, 250), font_size=90)
         self.pic = Label(text="", pos=(350, 250), font_size=90)
-        self.start.bind(on_press=self.start_game)
+        self.start.bind(on_press=self.start_countdown)
 
-    def start_game(self, obj):
-        num = 4
+    def start_countdown(self, obj):
+        count_from = 4
         self.remove_widget(self.start)
         self.add_widget(self.count)
 
-        def count_it(num):
-            if num == 1:
+        def count_it(count_from):
+            if count_from == 1:
                 self.pic_preciew()
                 return
-            num -= 1
-            self.count.text = str(num)
-            Clock.schedule_once(lambda dt: count_it(num), 1)
+            count_from -= 1
+            self.count.text = str(count_from)
+            Clock.schedule_once(lambda dt: count_it(count_from), 1)
 
-        Clock.schedule_once(lambda dt: count_it(num), 0)
+        Clock.schedule_once(lambda dt: count_it(count_from), 0)
 
-    def pic_preciew(self):
+    def pic_preview(self):
         self.remove_widget(self.count)
         self.add_widget(self.pic)
         self.pic.text = "photo"
+        cameradect()
 
 
 class PhotoboothApp(App):
