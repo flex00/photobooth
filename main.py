@@ -3,7 +3,7 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.app import App
 from kivy.clock import Clock
-import camera as cam
+from camera import cameradect
 
 
 class PhotoboothWidget(Widget):
@@ -34,7 +34,7 @@ class PhotoboothWidget(Widget):
         self.remove_widget(self.count)
         self.add_widget(self.pic)
         self.pic.text = "photo"
-        cam.cameradect()
+        cameradect()
 
 
 class PhotoboothApp(App):
