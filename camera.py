@@ -4,11 +4,15 @@ import time
 import logging
 import sys
 
-
-import gphoto2 as gp
+try:
+    import gphoto2 as gp
+except ImportError:
+    no_gphoto = True
 
 
 def cameradect():
+    if no_gphoto:
+        return
     logging.basicConfig(
         format='%(levelname)s: %(name)s: %(message)s', level=logging.WARNING)
     gp.check_result(gp.use_python_logging())
@@ -22,6 +26,8 @@ def cameradect():
     print('Copying image to', target)
     camera_file = gp.check_result(gp.gp_camera_file_get(
         camera, file_path.folder, file_path.name, gp.GP_FILE_TYPE_NORMAL))
+    print("check result")
     gp.check_result(gp.gp_file_save(camera_file, target))
+    print("exit camara")
     gp.check_result(gp.gp_camera_exit(camera))
-    return 0
+    return
