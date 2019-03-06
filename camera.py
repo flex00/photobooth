@@ -28,6 +28,5 @@ def cameradect():
         camera, file_path.folder, file_path.name, gp.GP_FILE_TYPE_NORMAL))
     print("check result")
     gp.check_result(gp.gp_file_save(camera_file, target))
-    print("exit camara")
     gp.check_result(gp.gp_camera_exit(camera))
     return
