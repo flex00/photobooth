@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 import os
 
@@ -8,15 +9,29 @@ def folder_setup(self):
     if not os.path.isdir(folder_location):
         os.mkdir(folder_location)
     today = datetime.now()
-    setlocation(("./photos/" +  today.strftime('%Y%m%d')))
+    set_location(("./photos/" + today.strftime('%Y%m%d')))
     if not os.path.isdir(folder_location):
         os.mkdir(folder_location)
 
 
-def getlocation():
+def get_location():
     return folder_location
 
-def setlocation(location):
+
+def set_location(location):
     global folder_location
     folder_location = location
     return
+
+
+def get_next_pic_name():
+    name = "pic"
+    list_of_files = os.listdir(get_location())
+
+    def extract_number(f):
+        s = re.findall("(\d+).jpg", f)
+        return (int(s[0]) if s else -1, f)
+    if list_of_files:
+        return (max(list_of_files, key=extract_number))
+    else:
+        return 0

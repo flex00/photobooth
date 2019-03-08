@@ -3,28 +3,27 @@ import subprocess
 import time
 import logging
 import sys
+from storage import get_location
 
 try:
     import gphoto2 as gp
+    gphoto = True
 except ImportError:
-    no_gphoto = True
+    gphoto = False
 
 
 def cameradect():
-    if no_gphoto:
+    if not gphoto:
         return
-    logging.basicConfig(
-        format='%(levelname)s: %(name)s: %(message)s', level=logging.WARNING)
-    gp.check_result(gp.use_python_logging())
-    camera = gp.check_result(gp.gp_camera_new())
-    gp.check_result(gp.gp_camera_init(camera))
+    camera = gp.Camera()
+    camera.init()
     print('Capturing image')
     file_path = gp.check_result(gp.gp_camera_capture(
         camera, gp.GP_CAPTURE_IMAGE))
     print('Camera file path: {0}/{1}'.format(file_path.folder, file_path.name))
 
-    target = os.path.join('/tmp', file_path.name)
-    print('Copying image to', target)
+    target = os.path.join(get_location(), file_path.name)
+    print('Copying image to', )
     camera_file = gp.check_result(gp.gp_camera_file_get(
         camera, file_path.folder, file_path.name, gp.GP_FILE_TYPE_NORMAL))
     print("check result")

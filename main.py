@@ -4,7 +4,7 @@ from kivy.uix.label import Label
 from kivy.app import App
 from kivy.clock import Clock
 from camera import cameradect
-from storage import folder_setup, getlocation
+from storage import folder_setup, get_next_pic_name
 
 
 class PhotoboothWidget(Widget):
@@ -12,7 +12,7 @@ class PhotoboothWidget(Widget):
         super().__init__()
         self.startup()
         folder_setup(self)
-        print(getlocation())
+        print(get_next_pic_name())
 
     def startup(self):
         self.clear_widgets()
