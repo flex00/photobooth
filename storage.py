@@ -25,13 +25,15 @@ def set_location(location):
 
 
 def get_next_pic_name():
-    name = "pic"
+    name = "pic000"
     list_of_files = os.listdir(get_location())
 
     def extract_number(f):
         s = re.findall("(\d+).jpg", f)
         return (int(s[0]) if s else -1, f)
     if list_of_files:
-        return (max(list_of_files, key=extract_number))
+        name += (max(list_of_files, key=extract_number)) + ".jpg"
+        return name
     else:
-        return 0
+        name = "pic0000.jpg"
+        return name

@@ -3,7 +3,7 @@ import subprocess
 import time
 import logging
 import sys
-from storage import get_location
+from storage import get_location, get_next_pic_name
 
 try:
     import gphoto2 as gp
