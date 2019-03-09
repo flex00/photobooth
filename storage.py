@@ -27,10 +27,8 @@ def get_last_pic_name():
     list_of_files = os.listdir(get_location())
     def extract_number(f):
         s = re.findall("(\d+).jpg", f)
-        print(s)
         return (int(s[0]) if s else -1, f)
     if list_of_files:
-        print(list_of_files)
         return max(list_of_files, key=extract_number)
     else:
         return ""

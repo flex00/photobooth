@@ -5,7 +5,7 @@ from kivy.app import App
 from kivy.clock import Clock
 from kivy.uix.image import Image
 from camera import cameradect
-from storage import folder_setup, get_next_pic_name, get_location
+from storage import folder_setup, get_location, get_last_pic_name
 
 
 class PhotoboothWidget(Widget):
@@ -13,7 +13,6 @@ class PhotoboothWidget(Widget):
         super().__init__()
         self.startup()
         folder_setup(self)
-        print(get_next_pic_name())
 
     def startup(self):
         self.clear_widgets()
@@ -41,10 +40,15 @@ class PhotoboothWidget(Widget):
     def pic_preview(self):
         self.remove_widget(self.count)
         self.add_widget(self.pic)
-        self.pic.text = "photo"
-        picture = Image(source=(get_location() + get_next_pic_name()), pos_hint={'center_x': 0.5, 'center_y': .6})
-        self.add_widget(picture)
+        # self.pic.text = "photo"
         cameradect()
+        picture = Image(source=(get_location() + "/" + get_last_pic_name()))
+        self.pic.add_widget(picture)
+        picture.size = (400,400)
+        picture.pos = (100,100)
+        picture.keep_ratio = True
+
+
         Clock.schedule_once(lambda dt: self.startup(), 5)
 
 
