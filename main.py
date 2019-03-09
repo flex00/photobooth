@@ -3,8 +3,9 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.app import App
 from kivy.clock import Clock
+from kivy.uix.image import Image
 from camera import cameradect
-from storage import folder_setup, get_next_pic_name
+from storage import folder_setup, get_next_pic_name, get_location
 
 
 class PhotoboothWidget(Widget):
@@ -41,6 +42,8 @@ class PhotoboothWidget(Widget):
         self.remove_widget(self.count)
         self.add_widget(self.pic)
         self.pic.text = "photo"
+        picture = Image(source=(get_location() + get_next_pic_name()), pos_hint={'center_x': 0.5, 'center_y': .6})
+        self.add_widget(picture)
         cameradect()
         Clock.schedule_once(lambda dt: self.startup(), 5)
 
