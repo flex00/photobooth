@@ -22,7 +22,7 @@ def cameradect():
         camera, gp.GP_CAPTURE_IMAGE))
     print('Camera file path: {0}/{1}'.format(file_path.folder, file_path.name))
 
-    target = os.path.join(get_location(), get_next_pic_name())
+    target = os.path.join(get_location(), time.strftime("%H%M%S"))
     print('Copying image to', )
     camera_file = gp.check_result(gp.gp_camera_file_get(
         camera, file_path.folder, file_path.name, gp.GP_FILE_TYPE_NORMAL))
