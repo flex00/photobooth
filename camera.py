@@ -1,4 +1,6 @@
 import os
+import io
+import logging
 import subprocess
 import time
 import logging
@@ -8,6 +10,7 @@ import io
 from kivy.core.image import Image as CoreImage
 
 from storage import get_location, get_next_pic_name
+from PIL import Image
 
 try:
     import gphoto2 as gp
