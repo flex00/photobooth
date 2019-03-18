@@ -1,6 +1,9 @@
 from kivy.core.text import LabelBase
 from kivy.core.window import Window
+from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.scatter import Scatter
+from kivy.graphics.svg import Svg
 from kivy.uix.widget import Widget
 from kivy.graphics import Color, Rectangle
 from kivy.uix.button import Button
@@ -8,7 +11,7 @@ from kivy.uix.label import Label
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.uix.image import Image
-from camera import cameradect
+from camera import cameradect, CameraGphoto2
 from storage import folder_setup, get_location, get_last_pic_name
 
 KIVY_FONTS = [
@@ -22,25 +25,32 @@ KIVY_FONTS = [
 for font in KIVY_FONTS:
     LabelBase.register(**font)
 
+
 class PhotoboothWidget(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__()
         super(PhotoboothWidget, self).__init__(**kwargs)
-        self.start = Button(text="Take Photo", pos_hint={'center_x': .5, 'center_y': .5}, size_hint=(.5, .5), font_name='Amatic')
+        self.start = Button(text="Maak foto!", pos_hint={'center_x': .5, 'center_y': .5}, size_hint=(.5, .5),
+                            font_name='Amatic')
         self.count = Label(text="", pos_hint={'center_x': .5, 'center_y': .5}, font_size=190, font_name='Amatic')
         self.take_picture = Button(text="Nieuwe foto", pos_hint={'bottom': 1, 'left': 1}, size_hint=(.2, .2))
         self.print_picture = Button(text="Print foto", pos_hint={'bottom': 1, 'right': 1}, size_hint=(.2, .2))
+        self.button_arrow = Image(source='images/arrow_flip.png', pos=(100, 0), size_hint=(0.3, 0.3))
         self.startup()
         folder_setup(self)
 
     def startup(self):
         self.clear_widgets()
-
+        self.add_widget(self.button_arrow)
         self.add_widget(self.start)
-        self.start.font_name = 'Amatic'
-        self.start.font_size = 72
 
+
+        self.start.font_name = 'Amatic'
+        self.start.font_size = 250
+        # self.start.background_disabled_down = ''
+        self.start.background_color = (0, 0, 0, 0)
         self.start.bind(on_press=self.start_countdown)
+
 
     def start_countdown(self, obj):
         self.clear_widgets()
@@ -62,15 +72,15 @@ class PhotoboothWidget(FloatLayout):
     def start_print(self, obj):
         Clock.schedule_once(lambda dt: self.startup(), 5)
 
-
-
     def pic_preview(self):
         self.remove_widget(self.count)
         # self.add_widget(self.pic)
         # self.pic.text = "photo"
-        cameradect()
-        picture = Image(source=(get_location() + "/" + get_last_pic_name()), pos_hint={'center_x': .5, 'center_y': .5},
-                        size_hint=(.5, .5))
+        # cameradect()
+        # picture = Image(source=(get_location() + "/" + get_last_pic_name()), pos_hint={'center_x': .5, 'center_y': .5},
+        #                 size_hint=(.5, .5))
+        _cam = CameraGphoto2()
+        picture = _cam.capturePreview()
         self.add_widget(picture)
         picture.keep_ratio = True
         self.take_picture.bind(on_press=self.start_countdown)
@@ -85,17 +95,17 @@ class PhotoboothWidget(FloatLayout):
 class PhotoboothApp(App):
     def build(self):
         self.root = root = PhotoboothWidget()
+        root.size_hint = (1, 1)
         root.bind(size=self._update_rect, pos=self._update_rect)
-        Window.fullscreen = 'auto'
+        # Window.fullscreen = 'auto'
 
         with root.canvas.before:
-
-            Color(0, 0, 0, 1)  # green; colors range from 0-1 not 0-255
+            Color(0, 1, 0, 1)  # green; colors range from 0-1 not 0-255
             self.rect = Rectangle(size=root.size, pos=root.pos)
             root.add_widget(Image(
                 source="./images/background.png",
                 keep_ratio=False,
-                allow_stretch=True), 1)
+                allow_stretch=True), 99)
         return root
 
     def _update_rect(self, instance, value):
