@@ -183,8 +183,10 @@ class CameraGphoto2:
 
     def capturePreview(self):
 
-        picture = self._cap.getPreview()
+        # picture = self._cap.getPreview()
+        camera_file = self._cap.capture_preview()
+        file_data = camera_file.get_data_and_size()
 
-        data = io.BytesIO(open("image.png", "rb").read())
-        im = CoreImage(picture, ext="png")
+        data = io.BytesIO(file_data)
+        im = CoreImage(data, ext="jpg").texture
         return im
