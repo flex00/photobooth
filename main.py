@@ -37,7 +37,8 @@ class PhotoboothWidget(FloatLayout):
         self.take_picture = Button(text="Nieuwe foto", pos_hint={'bottom': 1, 'left': 1}, size_hint=(.2, .2))
         self.print_picture = Button(text="Print foto", pos_hint={'bottom': 1, 'right': 1}, size_hint=(.2, .2))
         self.button_arrow = Image(source='images/arrow_flip.png', pos=(100, 0), size_hint=(0.3, 0.3))
-        self.preview = Image(source="")
+        self.preview = Image(source="", size_hint=(0.8, 0.8))
+        self.preview.keep_ratio = True
         self.startup()
         folder_setup(self)
 
@@ -54,10 +55,10 @@ class PhotoboothWidget(FloatLayout):
 
     def start_countdown(self, obj):
         self.clear_widgets()
-        count_from = 4
+        count_from = 30
         self.remove_widget(self.start)
         self.add_widget(self.count)
-        self.add_widget(self.preview)
+        self.add_widget(self.preview, 98)
 
         def count_it(count_from):
             if count_from == 1:
@@ -67,7 +68,7 @@ class PhotoboothWidget(FloatLayout):
 
             self.count.text = str(count_from)
             self.pic_preview()
-            Clock.schedule_once(lambda dt: count_it(count_from), 1)
+            Clock.schedule_once(lambda dt: count_it(count_from), 0)
 
         Clock.schedule_once(lambda dt: count_it(count_from), 0)
 
@@ -81,7 +82,6 @@ class PhotoboothWidget(FloatLayout):
 
         self.preview.texture = self._cam.capturePreview()
         self.preview.reload()
-        self.preview.keep_ratio = True
 
         # picture.size = (400,400)
         # picture.pos_hint={'center_x': .5, 'center_y': .5}
