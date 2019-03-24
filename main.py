@@ -34,7 +34,7 @@ class PhotoboothWidget(FloatLayout):
         self.start = Button(text="Maak foto!", pos_hint={'center_x': .5, 'center_y': .5}, size_hint=(.5, .5),
                             font_name='Amatic')
         self.count = Label(text="", pos_hint={'center_x': .5, 'center_y': .5}, font_size=190, font_name='Amatic')
-        self.take_picture = Button(text="Nieuwe foto", pos_hint={'bottom': 1, 'left': 1}, size_hint=(.2, .2))
+        self.retake_picture = Button(text="Nieuwe foto", pos_hint={'bottom': 1, 'left': 1}, size_hint=(.2, .2))
         self.print_picture = Button(text="Print foto", pos_hint={'bottom': 1, 'right': 1}, size_hint=(.2, .2))
         self.button_arrow = Image(source='images/arrow_flip.png', pos=(100, 0), size_hint=(0.3, 0.3))
         self.preview = Image(source="", size_hint=(0.8, 0.8))
@@ -94,8 +94,8 @@ class PhotoboothWidget(FloatLayout):
         image.texture = self._cam.getPicture()
         image.reload()
         image.keep_ratio = True
-        self.take_picture.bind(on_press=self.start_countdown)
-        self.add_widget(self.take_picture)
+        self.retake_picture.bind(on_press=self.start_countdown)
+        self.add_widget(self.retake_picture)
         self.print_picture.bind(on_press=self.start_print)
         self.add_widget(self.print_picture)
 
