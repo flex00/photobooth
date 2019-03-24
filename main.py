@@ -30,6 +30,7 @@ class PhotoboothWidget(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__()
         super(PhotoboothWidget, self).__init__(**kwargs)
+        self._cam = CameraGphoto2()
         self.start = Button(text="Maak foto!", pos_hint={'center_x': .5, 'center_y': .5}, size_hint=(.5, .5),
                             font_name='Amatic')
         self.count = Label(text="", pos_hint={'center_x': .5, 'center_y': .5}, font_size=190, font_name='Amatic')
@@ -65,6 +66,7 @@ class PhotoboothWidget(FloatLayout):
             count_from -= 1
 
             self.count.text = str(count_from)
+            self.pic_preview()
             Clock.schedule_once(lambda dt: count_it(count_from), 1)
 
         Clock.schedule_once(lambda dt: count_it(count_from), 0)
@@ -73,18 +75,15 @@ class PhotoboothWidget(FloatLayout):
         Clock.schedule_once(lambda dt: self.startup(), 5)
 
     def pic_preview(self):
-        self.remove_widget(self.count)
+        # self.remove_widget(self.count)
         # cameradect()
         # picture = Image(source=(get_location() + "/" + get_last_pic_name()), pos_hint={'center_x': .5, 'center_y': .5},
         #                 size_hint=(.5, .5))
-        _cam = CameraGphoto2()
-        picture = _cam.capturePreview()
+        
         image = Image(source="")
-        image.texture = picture
         self.add_widget(image)
-        for i in range(0,2):
-            image.texture = _cam.capturePreview()
-            image.reload()
+        image.texture = self._cam.capturePreview()
+        image.reload()
         image.keep_ratio = True
         self.take_picture.bind(on_press=self.start_countdown)
         self.add_widget(self.take_picture)
