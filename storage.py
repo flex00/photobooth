@@ -30,8 +30,10 @@ def get_last_pic_name():
         s = re.findall("(\d+).jpg", f)
         return (int(s[0]) if s else -1, f)
     if list_of_files:
+        print(max(list_of_files, key=extract_number))
         return max(list_of_files, key=extract_number)
     else:
+        print("nothing")
         return ""
 
 

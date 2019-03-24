@@ -12,7 +12,7 @@ from kivy.app import App
 from kivy.clock import Clock
 from kivy.uix.image import Image
 from camera import CameraGphoto2
-from storage import folder_setup
+from storage import folder_setup, get_location, get_last_pic_name
 
 KIVY_FONTS = [
     {
@@ -82,11 +82,9 @@ class PhotoboothWidget(FloatLayout):
         self.preview.reload()
 
     def take_picture(self):
-        image = Image(source="")
+        self.clear_widgets()
+        image = Image(source=(get_location() + get_last_pic_name()), pos_hint={'center_x': 0.5, 'center_y': .6})
         self.add_widget(image)
-        image.texture = self._cam.getPicture()
-        image.reload()
-        image.keep_ratio = True
         self.retake_picture.bind(on_press=self.start_countdown)
         self.add_widget(self.retake_picture)
         self.print_picture.bind(on_press=self.start_print)
