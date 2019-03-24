@@ -36,10 +36,4 @@ def get_last_pic_name():
 
 
 def get_next_pic_name():
-    max_file = get_last_pic_name()
-    if max_file:
-        max_file = max_file[3:-4]
-        max_file = int(max_file) + 1
-        return time.strftime("%H%M%S") + ".jpg"
-    else:
-        return "pic0000.jpg"
+    return time.strftime("%H%M%S") + ".jpg"
