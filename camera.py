@@ -149,11 +149,11 @@ class CameraGphoto2:
         except BaseException as e:
             logging.warning('Error while setting camera output to idle: {}.'.format(e))
 
-    def getPreview(self):
-
-        camera_file = self._cap.capture_preview()
-        file_data = camera_file.get_data_and_size()
-        return Image.open(io.BytesIO(file_data))
+    # def getPreview(self):
+    #
+    #     camera_file = self._cap.capture_preview()
+    #     file_data = camera_file.get_data_and_size()
+    #     return Image.open(io.BytesIO(file_data))
 
     def getPicture(self):
 
@@ -170,11 +170,11 @@ class CameraGphoto2:
         gp.check_result(gp.gp_file_save(camera_file, target))
         return
 
-    # def getPreview(self):
-    #
-    #     camera_file = self._cap.capture_preview()
-    #     file_data = camera_file.get_data_and_size()
-    #
-    #     data = io.BytesIO(file_data)
-    #     im = CoreImage(data, ext="jpg").texture
-    #     return im
+    def getPreview(self):
+
+        camera_file = self._cap.capture_preview()
+        file_data = camera_file.get_data_and_size()
+
+        data = io.BytesIO(file_data)
+        im = CoreImage(data, ext="jpg").texture
+        return im
