@@ -55,14 +55,16 @@ class PhotoboothWidget(FloatLayout):
 
     def start_countdown(self, obj):
         self.clear_widgets()
-        count_from = 30
+        count_from = 10
         self.remove_widget(self.start)
         self.add_widget(self.count)
         self.add_widget(self.preview, 98)
 
         def count_it(count_from):
-            if count_from == 1:
-                self.pic_preview()
+            if count_from == 0:
+                self.remove_widget(self.count)
+                self.remove_widget(self.preview)
+                self.take_picture()
                 return
             count_from -= 1
 
@@ -87,7 +89,6 @@ class PhotoboothWidget(FloatLayout):
         # picture.pos_hint={'center_x': .5, 'center_y': .5}
 
     def take_picture(self):
-        self.remove_widget(self.count)
         image = Image(source="")
         self.add_widget(image)
         image.texture = self._cam.getPicture()
