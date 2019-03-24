@@ -19,27 +19,6 @@ try:
 except ImportError:
     gphoto = False
 
-
-def cameradect():
-    if not gphoto:
-        return
-    camera = gp.Camera()
-    camera.init()
-    print('Capturing image')
-    file_path = gp.check_result(gp.gp_camera_capture(
-        camera, gp.GP_CAPTURE_IMAGE))
-    print('Camera file path: {0}/{1}'.format(file_path.folder, file_path.name))
-
-    target = os.path.join(get_location(), time.strftime("%H%M%S"))
-    print('Copying image to', )
-    camera_file = gp.check_result(gp.gp_camera_file_get(
-        camera, file_path.folder, file_path.name, gp.GP_FILE_TYPE_NORMAL))
-    print("check result")
-    gp.check_result(gp.gp_file_save(camera_file, target))
-    gp.check_result(gp.gp_camera_exit(camera))
-    return
-
-
 class CameraGphoto2:
 
     def __init__(self):
@@ -183,7 +162,7 @@ class CameraGphoto2:
             self._cap, gp.GP_CAPTURE_IMAGE))
         print('Camera file path: {0}/{1}'.format(file_path.folder, file_path.name))
 
-        target = os.path.join(get_location(), time.strftime("%H%M%S"))
+        target = os.path.join(get_location(), get_next_pic_name())
         print('Copying image to', )
         camera_file = gp.check_result(gp.gp_camera_file_get(
             self._cap, file_path.folder, file_path.name, gp.GP_FILE_TYPE_NORMAL))
@@ -191,7 +170,7 @@ class CameraGphoto2:
         gp.check_result(gp.gp_file_save(camera_file, target))
         return
 
-    def capturePreview(self):
+    def getPreview(self):
 
         # picture = self._cap.getPreview()
         camera_file = self._cap.capture_preview()

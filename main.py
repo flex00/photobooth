@@ -11,8 +11,8 @@ from kivy.uix.label import Label
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.uix.image import Image
-from camera import cameradect, CameraGphoto2
-from storage import folder_setup, get_location, get_last_pic_name
+from camera import CameraGphoto2
+from storage import folder_setup
 
 KIVY_FONTS = [
     {
@@ -37,7 +37,7 @@ class PhotoboothWidget(FloatLayout):
         self.retake_picture = Button(text="Nieuwe foto", pos_hint={'bottom': 1, 'left': 1}, size_hint=(.2, .2))
         self.print_picture = Button(text="Print foto", pos_hint={'bottom': 1, 'right': 1}, size_hint=(.2, .2))
         self.button_arrow = Image(source='images/arrow_flip.png', pos=(100, 0), size_hint=(0.3, 0.3))
-        self.preview = Image(source="", size_hint=(0.8, 0.8))
+        self.preview = Image(source="", size_hint=(0.8, 0.8), pos_hint={'center_x': .5, 'center_y': .5})
         self.preview.keep_ratio = True
         self.startup()
         folder_setup(self)
@@ -78,15 +78,8 @@ class PhotoboothWidget(FloatLayout):
         Clock.schedule_once(lambda dt: self.startup(), 5)
 
     def pic_preview(self):
-        # cameradect()
-        # picture = Image(source=(get_location() + "/" + get_last_pic_name()), pos_hint={'center_x': .5, 'center_y': .5},
-        #                 size_hint=(.5, .5))
-
-        self.preview.texture = self._cam.capturePreview()
+        self.preview.texture = self._cam.getPreview()
         self.preview.reload()
-
-        # picture.size = (400,400)
-        # picture.pos_hint={'center_x': .5, 'center_y': .5}
 
     def take_picture(self):
         image = Image(source="")

@@ -1,4 +1,5 @@
 import re
+import time
 from datetime import datetime
 import os
 
@@ -39,6 +40,6 @@ def get_next_pic_name():
     if max_file:
         max_file = max_file[3:-4]
         max_file = int(max_file) + 1
-        return "pic" + str(max_file).zfill(4) + ".jpg"
+        return time.strftime("%H%M%S") + ".jpg"
     else:
         return "pic0000.jpg"
