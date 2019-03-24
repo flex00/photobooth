@@ -83,7 +83,7 @@ class PhotoboothWidget(FloatLayout):
 
     def take_picture(self):
         self.clear_widgets()
-        image = Image(source=(get_location() + get_last_pic_name()), pos_hint={'center_x': 0.5, 'center_y': .6})
+        image = Image(source=(get_location() + "/" + get_last_pic_name()), pos_hint={'center_x': 0.5, 'center_y': .6})
         self.add_widget(image)
         self.retake_picture.bind(on_press=self.start_countdown)
         self.add_widget(self.retake_picture)
