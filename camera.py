@@ -178,11 +178,18 @@ class CameraGphoto2:
 
     def getPicture(self):
 
-        file_path = self._cap.capture(gp.GP_CAPTURE_IMAGE)
-        camera_file = self._cap.file_get(file_path.folder, file_path.name,
-                                         gp.GP_FILE_TYPE_NORMAL)
-        file_data = camera_file.get_data_and_size()
-        return Image.open(io.BytesIO(file_data))
+        print('Capturing image')
+        file_path = gp.check_result(gp.gp_camera_capture(
+            self._cap, gp.GP_CAPTURE_IMAGE))
+        print('Camera file path: {0}/{1}'.format(file_path.folder, file_path.name))
+
+        target = os.path.join(get_location(), time.strftime("%H%M%S"))
+        print('Copying image to', )
+        camera_file = gp.check_result(gp.gp_camera_file_get(
+            self._cap, file_path.folder, file_path.name, gp.GP_FILE_TYPE_NORMAL))
+        print("check result")
+        gp.check_result(gp.gp_file_save(camera_file, target))
+        return
 
     def capturePreview(self):
 

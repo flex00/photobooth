@@ -37,6 +37,7 @@ class PhotoboothWidget(FloatLayout):
         self.take_picture = Button(text="Nieuwe foto", pos_hint={'bottom': 1, 'left': 1}, size_hint=(.2, .2))
         self.print_picture = Button(text="Print foto", pos_hint={'bottom': 1, 'right': 1}, size_hint=(.2, .2))
         self.button_arrow = Image(source='images/arrow_flip.png', pos=(100, 0), size_hint=(0.3, 0.3))
+        self.preview = Image(source="")
         self.startup()
         folder_setup(self)
 
@@ -45,19 +46,18 @@ class PhotoboothWidget(FloatLayout):
         self.add_widget(self.button_arrow)
         self.add_widget(self.start)
 
-
         self.start.font_name = 'Amatic'
         self.start.font_size = 250
         # self.start.background_disabled_down = ''
         self.start.background_color = (0, 0, 0, 0)
         self.start.bind(on_press=self.start_countdown)
 
-
     def start_countdown(self, obj):
         self.clear_widgets()
         count_from = 4
         self.remove_widget(self.start)
         self.add_widget(self.count)
+        self.add_widget(self.preview)
 
         def count_it(count_from):
             if count_from == 1:
@@ -75,23 +75,28 @@ class PhotoboothWidget(FloatLayout):
         Clock.schedule_once(lambda dt: self.startup(), 5)
 
     def pic_preview(self):
-        # self.remove_widget(self.count)
         # cameradect()
         # picture = Image(source=(get_location() + "/" + get_last_pic_name()), pos_hint={'center_x': .5, 'center_y': .5},
         #                 size_hint=(.5, .5))
-        
+
+        self.preview.texture = self._cam.capturePreview()
+        self.preview.reload()
+        self.preview.keep_ratio = True
+
+        # picture.size = (400,400)
+        # picture.pos_hint={'center_x': .5, 'center_y': .5}
+
+    def take_picture(self):
+        self.remove_widget(self.count)
         image = Image(source="")
         self.add_widget(image)
-        image.texture = self._cam.capturePreview()
+        image.texture = self._cam.getPicture()
         image.reload()
         image.keep_ratio = True
         self.take_picture.bind(on_press=self.start_countdown)
         self.add_widget(self.take_picture)
         self.print_picture.bind(on_press=self.start_print)
         self.add_widget(self.print_picture)
-
-        # picture.size = (400,400)
-        # picture.pos_hint={'center_x': .5, 'center_y': .5}
 
 
 class PhotoboothApp(App):
