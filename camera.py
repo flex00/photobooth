@@ -169,6 +169,7 @@ class CameraGphoto2:
             self._cap, file_path.folder, file_path.name, gp.GP_FILE_TYPE_NORMAL))
         print("check result")
         gp.check_result(gp.gp_file_save(camera_file, target))
+        self.setActive()
         return
 
     def getPreview(self):
