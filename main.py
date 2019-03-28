@@ -98,6 +98,7 @@ class PhotoboothApp(App):
         self.root = root = PhotoboothWidget()
         root.size_hint = (1, 1)
         root.bind(size=self._update_rect, pos=self._update_rect)
+        print("starting application")
         # Window.fullscreen = 'auto'
 
         with root.canvas.before:
