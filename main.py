@@ -69,11 +69,11 @@ class PhotoboothWidget(FloatLayout):
                 self.remove_widget(self.preview)
                 self.take_picture()
                 return
-            
+
 
             self.count.text = str(count_from)
-            self.pic_preview()
-            count_from -= 1
+            count = self.pic_preview()
+            count_from = count_from - count
             # Clock.schedule_once(lambda dt: count_it(count_from), 0)
 
         # Clock.schedule_once(lambda dt: count_it(count_from), 0)
@@ -84,6 +84,7 @@ class PhotoboothWidget(FloatLayout):
     def pic_preview(self):
         self.preview.texture = self._cam.getPreview()
         self.preview.reload()
+        return 1
 
     def take_picture(self):
         self.clear_widgets()
