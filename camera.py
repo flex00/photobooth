@@ -157,7 +157,6 @@ class CameraGphoto2:
 
     def getPicture(self):
 
-        self.setIdle()
         print('Capturing image')
         file_path = gp.check_result(gp.gp_camera_capture(
             self._cap, gp.GP_CAPTURE_IMAGE))

@@ -62,6 +62,7 @@ class PhotoboothWidget(FloatLayout):
 
         def count_it(count_from):
             if count_from == 0:
+                self._cam.setIdle()
                 self.remove_widget(self.count)
                 self.remove_widget(self.preview)
                 self.take_picture()
