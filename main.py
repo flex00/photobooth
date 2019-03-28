@@ -60,23 +60,20 @@ class PhotoboothWidget(FloatLayout):
         self.add_widget(self.count)
         self.add_widget(self.preview, 98)
 
-        # def count_it(count_from):
-
-        while count_from > 0:
-            if count_from == 1:
+        def count_it(count_from):
+            if count_from == 0:
                 self._cam.setIdle()
                 self.remove_widget(self.count)
                 self.remove_widget(self.preview)
                 self.take_picture()
                 return
-
+            count_from -= 1
 
             self.count.text = str(count_from)
-            count = self.pic_preview()
-            count_from = count_from - count
-            # Clock.schedule_once(lambda dt: count_it(count_from), 0)
+            self.pic_preview()
+            Clock.schedule_once(lambda dt: count_it(count_from), 0)
 
-        # Clock.schedule_once(lambda dt: count_it(count_from), 0)
+        Clock.schedule_once(lambda dt: count_it(count_from), 0)
 
     def start_print(self, obj):
         Clock.schedule_once(lambda dt: self.startup(), 5)
@@ -84,7 +81,6 @@ class PhotoboothWidget(FloatLayout):
     def pic_preview(self):
         self.preview.texture = self._cam.getPreview()
         self.preview.reload()
-        return 1
 
     def take_picture(self):
         self.clear_widgets()
