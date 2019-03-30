@@ -1,3 +1,4 @@
+import datetime
 import os
 import io
 import logging
@@ -172,10 +173,14 @@ class CameraGphoto2:
         return
 
     def getPreview(self):
-
+        print("start" + datetime.datetime.utcnow())
         camera_file = self._cap.capture_preview()
+        print("camera" + datetime.datetime.utcnow())
         file_data = camera_file.get_data_and_size()
+        print("file" + datetime.datetime.utcnow())
 
         data = io.BytesIO(file_data)
+        print("io" + datetime.datetime.utcnow())
         im = CoreImage(data, ext="jpg").texture
+        print("image" + datetime.datetime.utcnow())
         return im
