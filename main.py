@@ -121,10 +121,10 @@ class PhotoboothApp(App):
         with root.canvas.before:
             Color(0, 1, 0, 1)  # green; colors range from 0-1 not 0-255
             self.rect = Rectangle(size=root.size, pos=root.pos)
-            root.add_widget(Image(
-                source="./images/background.png",
-                keep_ratio=False,
-                allow_stretch=True), 99)
+            # root.add_widget(Image(
+            #     source="./images/background.png",
+            #     keep_ratio=False,
+            #     allow_stretch=True), 99)
         return root
 
     def _update_rect(self, instance, value):
