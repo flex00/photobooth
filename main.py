@@ -72,10 +72,10 @@ class PhotoboothWidget(FloatLayout):
             self.count.text = str(count_from)
             self.pic_preview()
             count_it(count_from)
-            Clock.schedule_once(count_it(), -1)
+            Clock.schedule_once(count_it, -1)
 
         # count_it(count_from)
-        Clock.schedule_once(count_it(), 0)
+        Clock.schedule_once(count_it, 0)
 
     def start_print(self, obj):
         Clock.schedule_once(lambda dt: self.startup(), 5)
