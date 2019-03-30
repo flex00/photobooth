@@ -173,14 +173,14 @@ class CameraGphoto2:
         return
 
     def getPreview(self):
-        print("start" + datetime.datetime.utcnow().strftime("%H/%M/%S"))
+        print("start" + datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"))
         camera_file = self._cap.capture_preview()
-        print("camera" + datetime.datetime.utcnow().strftime("%H/%M/%S"))
+        print("camera" + datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"))
         file_data = camera_file.get_data_and_size()
-        print("file" + datetime.datetime.utcnow().strftime("%H/%M/%S"))
+        print("file" + datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"))
 
         data = io.BytesIO(file_data)
-        print("io" + datetime.datetime.utcnow().strftime("%H/%M/%S"))
+        print("io" + datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"))
         im = CoreImage(data, ext="jpg").texture
-        print("image" + datetime.datetime.utcnow().strftime("%H/%M/%S"))
+        print("image" + datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"))
         return im
