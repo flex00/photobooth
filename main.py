@@ -13,6 +13,7 @@ from kivy.clock import Clock
 from kivy.uix.image import Image
 from camera import CameraGphoto2
 from storage import folder_setup, get_location, get_last_pic_name
+from datetime import datetime, timedelta
 
 KIVY_FONTS = [
     {
@@ -60,22 +61,35 @@ class PhotoboothWidget(FloatLayout):
         self.add_widget(self.count)
         self.add_widget(self.preview, 98)
 
-        def count_it(count_from):
-            if count_from == 0:
-                self._cam.setIdle()
-                self.remove_widget(self.count)
-                self.remove_widget(self.preview)
-                self.take_picture()
-                return
-            count_from -= 1
-
+        end_time = datetime.now() + timedelta(seconds=3)
+        while datetime.now() < end_time:
             self.count.text = str(count_from)
             self.pic_preview()
-            count_it(count_from)
+        self._cam.setIdle()
+        self.remove_widget(self.count)
+        self.remove_widget(self.preview)
+        self.take_picture()
+
+
+        # this code will run until 3 seconds has gone by.
+        # if this function takes longer than 3 seconds to run once, it will run longer than 3 seconds.
+
+        # def count_it(count_from):
+        #     if count_from == 0:
+        #         self._cam.setIdle()
+        #         self.remove_widget(self.count)
+        #         self.remove_widget(self.preview)
+        #         self.take_picture()
+        #         return
+        #     count_from -= 1
+        #
+        #     self.count.text = str(count_from)
+        #     self.pic_preview()
+        #     count_it(count_from)
             # Clock.schedule_once(lambda dt: count_it(count_from), 0)
 
         # count_it(count_from)
-        Clock.schedule_once(lambda dt: count_it(count_from), 0)
+        # Clock.schedule_once(lambda dt: count_it(count_from), 0)
 
     def start_print(self, obj):
         Clock.schedule_once(lambda dt: self.startup(), 5)
