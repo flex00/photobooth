@@ -40,7 +40,6 @@ class PhotoboothWidget(FloatLayout):
         self.preview = Image(source="", size_hint=(0.8, 0.8), pos_hint={'center_x': .5, 'center_y': .5})
         self.preview.keep_ratio = True
         self.startup()
-        self.count_from = 10
         folder_setup(self)
 
     def startup(self):
@@ -56,26 +55,27 @@ class PhotoboothWidget(FloatLayout):
 
     def start_countdown(self, obj):
         self.clear_widgets()
+        count_from = 10
         self.remove_widget(self.start)
         self.add_widget(self.count)
         self.add_widget(self.preview, 98)
-        def count_it(dt):
-            if self.count_from == 0:
+
+        def count_it(count_from):
+            if count_from == 0:
                 self._cam.setIdle()
                 self.remove_widget(self.count)
                 self.remove_widget(self.preview)
                 self.take_picture()
-                self.count_from = 10
                 return
-            self.count_from -= 1
+            count_from -= 1
 
-            self.count.text = str(self.count_from)
+            self.count.text = str(count_from)
             self.pic_preview()
-            count_it(self.count_from)
-            Clock.schedule_once(count_it, -1)
+            count_it(count_from)
+            Clock.schedule_once(lambda dt: count_it(count_from), -1)
 
         # count_it(count_from)
-        Clock.schedule_once(count_it, 0)
+        Clock.schedule_once(lambda dt: count_it(count_from), 0)
 
     def start_print(self, obj):
         Clock.schedule_once(lambda dt: self.startup(), 5)
